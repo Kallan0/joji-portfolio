@@ -1,4 +1,4 @@
-# Joji — Portfolio
+# Kallan — Portfolio
 
 Single-page portfolio with a floating glass navbar, About, Tech stack, Projects,
 Location/Now and Contact sections. The contact form sends messages to your inbox

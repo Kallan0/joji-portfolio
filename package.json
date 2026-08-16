@@ -1,8 +1,8 @@
 {
-  "name": "joji-portfolio",
+  "name": "kallan-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "Joji's portfolio with a nodemailer-powered contact form",
+  "description": "Kallan's portfolio with a nodemailer-powered contact form",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

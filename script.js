@@ -7,7 +7,7 @@
    ========================================================================== */
 
 const CONFIG = {
-  name: 'Joji A G',
+  name: 'Kallan',
   role: 'Full-Stack Developer',
 
   /* --- Location & what you're doing now --- */

@@ -3,7 +3,7 @@
 
 services:
   - type: web
-    name: joji-portfolio
+    name: kallan-portfolio
     runtime: node
     plan: free
     buildCommand: npm install
