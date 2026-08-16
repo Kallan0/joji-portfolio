@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joji — Full-Stack Developer</title>
+  <meta name="description" content="Portfolio of Joji, a full-stack developer building fast, friendly web applications." />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='%238b7bff'/></svg>" />
+
+  <!-- Fonts: Clash Display (headings) + General Sans (body) — loaded from Fontshare -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Ambient background glows (static, no animation) -->
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <!-- ===================== Floating glass navbar ===================== -->
+  <header class="navbar" id="navbar">
+    <a class="brand" href="#about">Joji<span>.</span></a>
+
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a class="nav-link" href="#about">About</a>
+      <a class="nav-link" href="#stack">Stack</a>
+      <a class="nav-link" href="#work">Work</a>
+      <a class="nav-link" href="#now">Now</a>
+      <a class="nav-link" href="#contact">Contact</a>
+    </nav>
+
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main id="top">
+    <!-- ===================== About / Hero ===================== -->
+    <section id="about" class="hero section">
+      <div class="hero-inner reveal">
+        <p class="eyebrow">👋 Hello, I&rsquo;m</p>
+        <h1 class="name">Joji</h1>
+        <p class="role">Full-Stack Developer &mdash; I build <span class="accent">fast, friendly web apps</span></p>
+        <p class="tagline">
+          I design and build complete web products: clean, accessible interfaces on the
+          front, and the APIs, databases and infrastructure that power them on the back.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#work">View my work</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Tech stack ===================== -->
+    <section id="stack" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Toolbox</p>
+          <h2>My tech stack</h2>
+          <p>The languages and tools I reach for every day.</p>
+        </div>
+        <div class="stack-grid" id="stackGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== Projects ===================== -->
+    <section id="work" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Selected work</p>
+          <h2>Projects</h2>
+          <p>Things I&rsquo;ve designed, built and shipped. Links light up once live.</p>
+        </div>
+        <div class="project-grid" id="projectGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== Location + Currently ===================== -->
+    <section id="now" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Now</p>
+          <h2>Where I am &amp; what I&rsquo;m up to</h2>
+          <p>A quick snapshot of my location and what I&rsquo;m currently doing.</p>
+        </div>
+        <div class="now-grid">
+          <div class="info-card reveal">
+            <span class="icon">🌍</span>
+            <h3>Based in</h3>
+            <p class="muted" id="locationCity"></p>
+            <p class="muted" id="locationTz"></p>
+          </div>
+          <div class="info-card reveal">
+            <span class="icon">⚡</span>
+            <h3>Currently</h3>
+            <ul class="currently-list" id="currentlyList"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== Contact / Footer ===================== -->
+  <footer id="contact" class="section contact">
+    <div class="container">
+      <div class="contact-inner reveal">
+        <p class="eyebrow">Contact</p>
+        <h2>Let&rsquo;s build something together.</h2>
+        <p>Have a project in mind, or just want to say hi? Fill in the form and I’ll get back to you.</p>
+
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="cf-name">Name</label>
+              <input type="text" id="cf-name" name="name" placeholder="Your name" required minlength="2" autocomplete="name" />
+            </div>
+            <div class="form-field">
+              <label for="cf-email">Email</label>
+              <input type="email" id="cf-email" name="email" placeholder="you@example.com" required autocomplete="email" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="cf-subject">Subject <span class="optional">(optional)</span></label>
+            <input type="text" id="cf-subject" name="subject" placeholder="What’s this about?" />
+          </div>
+          <div class="form-field">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="5" placeholder="Tell me about your project…" required minlength="10"></textarea>
+          </div>
+          <!-- Honeypot: hidden from humans, catches bots -->
+          <input type="text" id="cf-website" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          <button type="submit" class="btn btn-primary" id="formSubmit">Send message</button>
+        </form>
+
+        <p class="form-alt">Prefer email? Write to me directly:</p>
+        <a class="btn btn-ghost" id="mailBtn" href="#">you@example.com</a>
+        <div class="socials" id="socials"></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> Joji</span>
+        <a href="#about">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

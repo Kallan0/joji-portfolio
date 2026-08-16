@@ -1,0 +1,29 @@
+# Render blueprint — deploy via: New -> Blueprint -> this repo
+# Secrets (sync: false) are set in the Render dashboard, never in git.
+
+services:
+  - type: web
+    name: joji-portfolio
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Where form messages are delivered (overridable in dashboard)
+      - key: TO_EMAIL
+        value: jojiag2005@gmail.com
+      # ---- SMTP credentials — set these in the Render dashboard ----
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_SECURE
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      # Render sets PORT automatically; no need to define it here.
