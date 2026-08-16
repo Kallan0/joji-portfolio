@@ -54,6 +54,11 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  // Fail fast instead of hanging ~2 min when the SMTP host is unreachable
+  // (e.g. Render's free tier blocks outbound ports 25/465/587).
+  connectionTimeout: 15 * 1000,
+  greetingTimeout: 15 * 1000,
+  socketTimeout: 20 * 1000,
 });
 
 /* ------------------------------ Helpers ------------------------------ */

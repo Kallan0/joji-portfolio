@@ -79,7 +79,7 @@ A `render.yaml` blueprint is included, so deployment is mostly clicking:
 | ------------- | -------- | ---------------------- | ------------------------------------------ |
 | `TO_EMAIL`    | no       | `jojiag2005@gmail.com` | Recipient of contact-form messages         |
 | `SMTP_HOST`   | no       | `smtp.gmail.com`       | SMTP server host                           |
-| `SMTP_PORT`   | no       | `587`                  | SMTP port (use `465` with `SMTP_SECURE=true`) |
+| `SMTP_PORT`   | no       | `587`                  | SMTP port. On Render free tier use `2525` (SendGrid) |
 | `SMTP_SECURE` | no       | `false`                | Use TLS on connect (true for port 465)     |
 | `SMTP_USER`   | yes      | —                      | SMTP login (your Gmail address)            |
 | `SMTP_PASS`   | yes      | —                      | Gmail **app password** (16 chars, see above) |
@@ -88,6 +88,12 @@ A `render.yaml` blueprint is included, so deployment is mostly clicking:
 
 ### Production notes
 
+- **Render free tier blocks SMTP** — since Sep 26, 2025, Render's *free*
+  web services block all outbound traffic to SMTP ports 25, 465 and 587
+  (so Gmail's `587`/`465` time out). Two fixes: use **SendGrid SMTP on port
+  `2525`** (free tier, 100 emails/day — just change the env vars below), or
+  upgrade to a paid Render plan. The server now fails fast (~15s) instead of
+  hanging 2 minutes when the SMTP host is unreachable.
 - **Gmail SMTP limits** — free Gmail allows roughly 500 outgoing emails/day
   and may rate-limit bursts. Fine for a portfolio; if you ever need more,
   swap the transporter in `server.js` for a transactional service (Resend,
