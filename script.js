@@ -24,7 +24,7 @@ const CONFIG = {
   /* --- Contact --- */
   email: 'jojiag2005@gmail.com',
   socials: {
-    github: '',        // e.g. 'https://github.com/yourname'  — add your username
+    github: 'https://github.com/Kallan0',
     linkedin: '',      // e.g. 'https://linkedin.com/in/yourname'
     portfolio: '',     // e.g. 'https://yourname.dev'
   },
@@ -38,33 +38,33 @@ const CONFIG = {
   ],
 
   /* --- Projects (github / demo empty  =>  "coming soon" placeholder) ---
-     These are placeholders until your GitHub repos are wired in. */
+     Real repos pulled from github.com/Kallan0 */
   projects: [
     {
-      icon: 'clipboard',
-      title: 'TaskFlow',
+      icon: 'shoppingBag',
+      title: 'Value Village',
       description:
-        'A collaborative task manager with realtime sync, drag-and-drop boards and smart reminders.',
-      tags: ['React', 'TypeScript', 'Node.js', 'WebSockets'],
-      github: '',
-      demo: '',
+        'A bespoke full-stack e-commerce platform for the thrift and resale market — built on the MERN stack with server-side rendering via React Router v7.',
+      tags: ['React', 'Node.js', 'Express', 'MongoDB'],
+      github: 'https://github.com/Kallan0/value-village-thrift-resell',
+      demo: 'https://value-village-thrift-resell.vercel.app',
     },
     {
-      icon: 'layers',
-      title: 'Aurora UI',
+      icon: 'graduationCap',
+      title: 'SL-LMS',
       description:
-        'A lightweight, accessible component library with dark mode, design tokens and zero runtime styles.',
-      tags: ['TypeScript', 'CSS', 'Storybook'],
-      github: '',
+        'A sign language learning management system — a responsive TypeScript/React app with JWT-based authentication and MediaPipe vision integration.',
+      tags: ['TypeScript', 'React', 'Tailwind CSS', 'MediaPipe'],
+      github: 'https://github.com/Kallan0/SL-LMS',
       demo: '',
     },
     {
       icon: 'rss',
-      title: 'DevFeed',
+      title: 'Tech News',
       description:
-        'A fast, filterable feed of developer news and releases, aggregated from 40+ sources.',
-      tags: ['Next.js', 'PostgreSQL', 'RSS'],
-      github: '',
+        'An automated daily tech news board — a Python pipeline fetches and categorizes top Hacker News stories, served through a MERN web interface.',
+      tags: ['Python', 'React', 'Node.js', 'MongoDB'],
+      github: 'https://github.com/Kallan0/Tech-news',
       demo: '',
     },
   ],
@@ -139,6 +139,14 @@ const ICONS = {
   folder: `
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
+    </svg>`,
+  shoppingBag: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+    </svg>`,
+  graduationCap: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
     </svg>`,
 };
 
