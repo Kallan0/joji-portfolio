@@ -7,13 +7,13 @@
    ========================================================================== */
 
 const CONFIG = {
-  name: 'Joji',
+  name: 'Joji A G',
   role: 'Full-Stack Developer',
 
   /* --- Location & what you're doing now --- */
   location: {
-    city: 'Your City, Country',
-    timezone: 'Your timezone (e.g. IST · UTC+5:30)',
+    city: 'India',                                // update to your city
+    timezone: 'IST · UTC+5:30',
   },
   currently: [
     'Building small tools and side projects to scratch my own itches',
@@ -22,25 +22,26 @@ const CONFIG = {
   ],
 
   /* --- Contact --- */
-  email: 'you@example.com',
+  email: 'jojiag2005@gmail.com',
   socials: {
-    github: '',        // e.g. 'https://github.com/yourname'
+    github: '',        // e.g. 'https://github.com/yourname'  — add your username
     linkedin: '',      // e.g. 'https://linkedin.com/in/yourname'
     portfolio: '',     // e.g. 'https://yourname.dev'
   },
 
-  /* --- Tech stack (grouped into cards) --- */
+  /* --- Tech stack (icon = key into the ICONS library below) --- */
   stack: [
-    { icon: '🗣️', title: 'Languages',  items: ['JavaScript', 'TypeScript', 'Python', 'HTML & CSS'] },
-    { icon: '🎨', title: 'Frontend',   items: ['React', 'Next.js', 'Vue', 'Tailwind CSS'] },
-    { icon: '⚙️', title: 'Backend',    items: ['Node.js', 'Express', 'PostgreSQL', 'Redis'] },
-    { icon: '🛠️', title: 'Tools & Cloud', items: ['Git', 'Docker', 'Vercel', 'Figma'] },
+    { icon: 'code',   title: 'Languages',      items: ['JavaScript', 'TypeScript', 'Python', 'HTML & CSS'] },
+    { icon: 'layout', title: 'Frontend',       items: ['React', 'Next.js', 'Vue', 'Tailwind CSS'] },
+    { icon: 'server', title: 'Backend',        items: ['Node.js', 'Express', 'PostgreSQL', 'Redis'] },
+    { icon: 'wrench', title: 'Tools & Cloud',  items: ['Git', 'Docker', 'Vercel', 'Figma'] },
   ],
 
-  /* --- Projects (github / demo empty  =>  "coming soon" placeholder) --- */
+  /* --- Projects (github / demo empty  =>  "coming soon" placeholder) ---
+     These are placeholders until your GitHub repos are wired in. */
   projects: [
     {
-      emoji: '📋',
+      icon: 'clipboard',
       title: 'TaskFlow',
       description:
         'A collaborative task manager with realtime sync, drag-and-drop boards and smart reminders.',
@@ -49,7 +50,7 @@ const CONFIG = {
       demo: '',
     },
     {
-      emoji: '🎨',
+      icon: 'layers',
       title: 'Aurora UI',
       description:
         'A lightweight, accessible component library with dark mode, design tokens and zero runtime styles.',
@@ -58,7 +59,7 @@ const CONFIG = {
       demo: '',
     },
     {
-      emoji: '📡',
+      icon: 'rss',
       title: 'DevFeed',
       description:
         'A fast, filterable feed of developer news and releases, aggregated from 40+ sources.',
@@ -93,6 +94,52 @@ const ICONS = {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
     </svg>`,
+
+  /* --- Generic UI icons (lucide-style strokes) --- */
+  sun: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+    </svg>`,
+  mapPin: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+    </svg>`,
+  zap: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>
+    </svg>`,
+  code: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>
+    </svg>`,
+  layout: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M9 21V9"/>
+    </svg>`,
+  server: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/>
+    </svg>`,
+  wrench: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+    </svg>`,
+  clipboard: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4M12 16h4M8 11h.01M8 16h.01"/>
+    </svg>`,
+  layers: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+    </svg>`,
+  rss: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/>
+    </svg>`,
+  folder: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
+    </svg>`,
 };
 
 /* ============================== Render: location & now ============================== */
@@ -113,7 +160,7 @@ function renderStack() {
     .map(
       (group) => `
         <article class="stack-card reveal">
-          <span class="icon">${group.icon}</span>
+          <span class="icon">${ICONS[group.icon] || ICONS.code}</span>
           <h3>${group.title}</h3>
           <div class="chips">
             ${group.items.map((item) => `<span class="chip">${item}</span>`).join('')}
@@ -138,7 +185,7 @@ function renderProjects() {
       (p, i) => `
         <article class="project-card reveal">
           <div class="project-top">
-            <span class="project-emoji">${p.emoji}</span>
+            <span class="project-icon">${ICONS[p.icon] || ICONS.folder}</span>
             <span class="project-num">${String(i + 1).padStart(2, '0')}</span>
           </div>
           <h3>${p.title}</h3>

@@ -307,6 +307,12 @@ section {
   text-transform: uppercase;
 }
 
+.eyebrow svg {
+  width: 14px;
+  height: 14px;
+  color: var(--accent-2);
+}
+
 /* ============================== Hero / About ============================== */
 
 .hero {
@@ -418,8 +424,20 @@ section {
 }
 
 .stack-card .icon {
-  font-size: 1.5rem;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--accent);
+}
+
+.stack-card .icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .stack-card h3 {
@@ -474,9 +492,21 @@ section {
   margin-bottom: 18px;
 }
 
-.project-emoji {
-  font-size: 1.7rem;
-  line-height: 1;
+.project-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--accent);
+}
+
+.project-icon svg {
+  width: 19px;
+  height: 19px;
 }
 
 .project-num {
@@ -562,8 +592,20 @@ section {
 }
 
 .info-card .icon {
-  font-size: 1.6rem;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--accent-2);
+}
+
+.info-card .icon svg {
+  width: 22px;
+  height: 22px;
 }
 
 .info-card h3 {
