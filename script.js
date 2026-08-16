@@ -68,6 +68,33 @@ const CONFIG = {
       github: 'https://github.com/Kallan0/Tech-news',
       demo: '',
     },
+    {
+      icon: 'image',
+      title: 'Image Gallery',
+      description:
+        'A dynamic product detail page for Frido Footwear — picking a product variant instantly syncs the image gallery, pricing, stock status, and CTA through React state management.',
+      tags: ['React', 'Node.js', 'Express', 'MongoDB'],
+      github: 'https://github.com/Kallan0/Image-gallery',
+      demo: '',
+    },
+    {
+      icon: 'chart',
+      title: 'Sports Dashboard',
+      description:
+        'A sports participation dashboard — a Streamlit app that ingests a CSV and visualizes the data with interactive pie and bar charts built on Plotly.',
+      tags: ['Python', 'Streamlit', 'Pandas', 'Plotly'],
+      github: 'https://github.com/Kallan0/Sports-dashboard',
+      demo: '',
+    },
+    {
+      icon: 'vault',
+      title: 'rust_vault',
+      description:
+        'A Rust file-vault REST API in progress — JWT-based auth and user/file management laid out across routes, handlers, services, and repositories.',
+      tags: ['Rust', 'JWT', 'MongoDB'],
+      github: 'https://github.com/Kallan0/rust_vault',
+      demo: '',
+    },
   ],
 };
 
@@ -156,6 +183,18 @@ const ICONS = {
   graduationCap: `
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+    </svg>`,
+  image: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/>
+    </svg>`,
+  chart: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 3v18h18"/><path d="M8 17v-6M13 17V7M18 17v-4"/>
+    </svg>`,
+  vault: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="10" r="2.5"/>
     </svg>`,
 };
 
