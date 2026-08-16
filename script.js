@@ -170,22 +170,65 @@ function renderNow() {
     .join('');
 }
 
-/* ============================== Render: tech stack ============================== */
+/* ============================== Render: tech stack (orbiting) ============================== */
 
-function renderStack() {
-  $('#stackGrid').innerHTML = CONFIG.stack
-    .map(
-      (group) => `
-        <article class="stack-card reveal">
-          <span class="icon">${ICONS[group.icon] || ICONS.code}</span>
-          <h3>${group.title}</h3>
-          <div class="chips">
-            ${group.items.map((item) => `<span class="chip">${item}</span>`).join('')}
-          </div>
-        </article>`
-    )
+const ORBIT_FACTORS = [0.42, 0.6, 0.78, 0.96];   // ring radius as a share of the container
+const ORBIT_DURATIONS = [18, 24, 30, 36];        // seconds per revolution, staggered
+const ORBIT_LABEL_ANGLES = [0, 90, 180, 270];    // bottom, right, top, left
+
+function renderOrbit() {
+  const rings = $('#orbitRings');
+  if (!rings) return;
+
+  rings.innerHTML = CONFIG.stack
+    .map((group, ringIndex) => {
+      const count = group.items.length;
+      const nodes = group.items
+        .map((_, i) => {
+          const angle = (360 / count) * i + ringIndex * 22.5; // stagger rings so tiles don't line up
+          const direction = ringIndex % 2 === 1 ? 'reverse' : 'normal';
+          return `
+            <span class="orbit-node" style="--angle: ${angle}deg; --radius: var(--r${ringIndex}); --duration: ${ORBIT_DURATIONS[ringIndex]}s; animation-direction: ${direction}">
+              ${ICONS[group.icon] || ICONS.code}
+            </span>`;
+        })
+        .join('');
+
+      const label = `
+        <span class="orbit-label" style="--angle: ${ORBIT_LABEL_ANGLES[ringIndex]}deg; --radius: var(--r${ringIndex});">
+          ${group.title}
+        </span>`;
+
+      return nodes + label;
+    })
+    .join('');
+
+  layoutOrbit();
+}
+
+let orbitRadii = [];
+
+function layoutOrbit() {
+  const container = $('#orbitContainer');
+  if (!container) return;
+  const maxRadius = Math.min(container.clientWidth / 2 - 26, 230);
+  orbitRadii = ORBIT_FACTORS.map((factor) => Math.round(maxRadius * factor));
+  orbitRadii.forEach((radius, i) => {
+    container.style.setProperty(`--r${i}`, `${radius}px`);
+  });
+  renderOrbitPaths();
+}
+
+/* Draw the orbital path circles so each ring's line is visible */
+function renderOrbitPaths() {
+  const svg = $('#orbitPaths');
+  if (!svg) return;
+  svg.innerHTML = orbitRadii
+    .map((radius) => `<circle class="orbit-path" cx="50%" cy="50%" r="${radius}" />`)
     .join('');
 }
+
+window.addEventListener('resize', layoutOrbit);
 
 /* ============================== Render: projects ============================== */
 
@@ -427,7 +470,7 @@ function initReveal() {
 /* ============================== Boot ============================== */
 
 renderNow();
-renderStack();
+renderOrbit();
 renderProjects();
 renderContact();
 renderDock();

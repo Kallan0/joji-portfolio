@@ -402,49 +402,134 @@ section {
   transform: translateY(-2px);
 }
 
-/* ============================== Tech stack ============================== */
+/* ============================== Tech stack (orbiting) ============================== */
 
-.stack-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 18px;
+.stack-orbit {
+  text-align: center;
+  padding-block: 8px 24px;
 }
 
-.stack-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 26px;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+.stack-orbit .eyebrow {
+  margin-bottom: 28px;
 }
 
-.stack-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-strong);
+.orbit-container {
+  position: relative;
+  width: min(640px, 92vw);
+  height: 620px;
+  margin: 0 auto;
 }
 
-.stack-card .icon {
-  display: inline-flex;
+/* Layer holding the orbiting tiles and labels */
+.orbit-rings {
+  position: absolute;
+  inset: 0;
+}
+
+/* Visible orbital path lines — one per ring */
+.orbit-paths {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.orbit-path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 1;
+}
+
+/* Heading — plain text floating above the orbit circle */
+.orbit-heading {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  gap: 6px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.orbit-heading > svg {
+  width: 20px;
+  height: 20px;
   color: var(--accent);
 }
 
-.stack-card .icon svg {
+.orbit-heading-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* Orbiting icon tiles */
+.orbit-node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+  animation: orbit var(--duration) linear infinite;
+}
+
+.orbit-node svg {
   width: 20px;
   height: 20px;
 }
 
-.stack-card h3 {
-  font-family: var(--font-heading);
-  font-size: 1.05rem;
+@keyframes orbit {
+  0% {
+    transform: rotate(var(--angle)) translateY(var(--radius)) rotate(calc(var(--angle) * -1));
+  }
+  100% {
+    transform: rotate(calc(var(--angle) + 360deg)) translateY(var(--radius)) rotate(calc((var(--angle) * -1) - 360deg));
+  }
+}
+
+/* Static ring labels (Languages, Frontend, Backend, Tools & Cloud) */
+.orbit-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  padding: 6px 13px;
+  white-space: nowrap;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.72rem;
   font-weight: 600;
-  margin: 14px 0 16px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(var(--radius)) rotate(calc(var(--angle) * -1));
+}
+
+/* Respect users who prefer less motion: freeze the icons in place */
+@media (prefers-reduced-motion: reduce) {
+  .orbit-node {
+    animation: none;
+    transform: rotate(var(--angle)) translateY(var(--radius)) rotate(calc(var(--angle) * -1));
+  }
 }
 
 .chips {
