@@ -406,17 +406,12 @@ section {
 
 .stack-orbit {
   text-align: center;
-  padding-block: 8px 24px;
-}
-
-.stack-orbit .eyebrow {
-  margin-bottom: 28px;
 }
 
 .orbit-container {
   position: relative;
   width: min(640px, 92vw);
-  height: 620px;
+  height: 520px; /* JS hugs this to the ring size once the orbit is laid out */
   margin: 0 auto;
 }
 
@@ -443,15 +438,11 @@ section {
 
 /* Heading — plain text floating above the orbit circle */
 .orbit-heading {
-  position: absolute;
-  top: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  margin: 0 auto 14px;
   text-align: center;
   pointer-events: none;
 }
@@ -493,6 +484,35 @@ section {
 .orbit-node svg {
   width: 20px;
   height: 20px;
+}
+
+/* Tooltip — shows the technology name on hover (they were lost when the grid became an orbit) */
+.orbit-node::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.92);
+  transform-origin: bottom center;
+  z-index: 10;
+  padding: 5px 10px;
+  white-space: nowrap;
+  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.orbit-node:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }
 
 @keyframes orbit {

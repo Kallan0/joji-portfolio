@@ -184,11 +184,11 @@ function renderOrbit() {
     .map((group, ringIndex) => {
       const count = group.items.length;
       const nodes = group.items
-        .map((_, i) => {
+        .map((item, i) => {
           const angle = (360 / count) * i + ringIndex * 22.5; // stagger rings so tiles don't line up
           const direction = ringIndex % 2 === 1 ? 'reverse' : 'normal';
           return `
-            <span class="orbit-node" style="--angle: ${angle}deg; --radius: var(--r${ringIndex}); --duration: ${ORBIT_DURATIONS[ringIndex]}s; animation-direction: ${direction}">
+            <span class="orbit-node" data-tooltip="${item}" aria-label="${item}" style="--angle: ${angle}deg; --radius: var(--r${ringIndex}); --duration: ${ORBIT_DURATIONS[ringIndex]}s; animation-direction: ${direction}">
               ${ICONS[group.icon] || ICONS.code}
             </span>`;
         })
@@ -216,6 +216,8 @@ function layoutOrbit() {
   orbitRadii.forEach((radius, i) => {
     container.style.setProperty(`--r${i}`, `${radius}px`);
   });
+  // Hug the circle: ring diameter + room for the tile overhang and bottom label
+  container.style.height = `${2 * maxRadius + 56}px`;
   renderOrbitPaths();
 }
 
