@@ -27,6 +27,9 @@ if (process.env.NODE_ENV === 'production') {
 const PORT = process.env.PORT || 3000;
 const TO_EMAIL = process.env.TO_EMAIL || 'jojiag2005@gmail.com';
 const FROM_EMAIL = process.env.SMTP_USER || TO_EMAIL;
+const MAIL_PROVIDER = process.env.MAIL_PROVIDER || 'smtp'; // 'smtp' | 'resend'
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+const MAIL_FROM = process.env.MAIL_FROM || `"Portfolio Contact" <${FROM_EMAIL}>`;
 const RATE_LIMIT_MS = 60 * 1000; // one message per IP per minute
 
 /* ------------------------------ Middleware ------------------------------ */
@@ -60,6 +63,31 @@ const transporter = nodemailer.createTransport({
   greetingTimeout: 15 * 1000,
   socketTimeout: 20 * 1000,
 });
+
+/* sendMessage routes to the configured provider.
+ * - 'resend': HTTP API over port 443 — works on Render's free tier, which
+ *   blocks SMTP ports 25/465/587. Needs RESEND_API_KEY; send from
+ *   onboarding@resend.dev to your own account email (no domain required).
+ * - 'smtp': nodemailer (default) — fine locally and on paid hosts.
+ */
+async function sendMessage({ from, to, replyTo, subject, text, html }) {
+  if (MAIL_PROVIDER === 'resend' && RESEND_API_KEY) {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ from, to, reply_to: replyTo, subject, text, html }),
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '');
+      throw new Error(`Resend API ${res.status}: ${detail.slice(0, 300)}`);
+    }
+    return;
+  }
+  await transporter.sendMail({ from, to, replyTo, subject, text, html });
+}
 
 /* ------------------------------ Helpers ------------------------------ */
 
@@ -117,8 +145,8 @@ app.post('/api/contact', async (req, res) => {
   };
 
   try {
-    await transporter.sendMail({
-      from: `"Portfolio Contact" <${FROM_EMAIL}>`,
+    await sendMessage({
+      from: MAIL_FROM,
       to: TO_EMAIL,
       replyTo: clean.email,
       subject: `New portfolio message from ${clean.name}${clean.subject ? ` — ${clean.subject}` : ''}`,

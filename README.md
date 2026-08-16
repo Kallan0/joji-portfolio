@@ -78,6 +78,9 @@ A `render.yaml` blueprint is included, so deployment is mostly clicking:
 | Variable      | Required | Default                | Description                                |
 | ------------- | -------- | ---------------------- | ------------------------------------------ |
 | `TO_EMAIL`    | no       | `jojiag2005@gmail.com` | Recipient of contact-form messages         |
+| `MAIL_PROVIDER` | no     | `smtp`                 | `smtp` (nodemailer) or `resend` (HTTP API, recommended on Render free tier) |
+| `RESEND_API_KEY` | no    | —                      | Resend API key (only with `MAIL_PROVIDER=resend`) |
+| `MAIL_FROM`   | no       | `"Portfolio Contact" <from>` | Sender shown on emails (e.g. `onboarding@resend.dev`) |
 | `SMTP_HOST`   | no       | `smtp.gmail.com`       | SMTP server host                           |
 | `SMTP_PORT`   | no       | `587`                  | SMTP port. On Render free tier use `2525` (SendGrid) |
 | `SMTP_SECURE` | no       | `false`                | Use TLS on connect (true for port 465)     |
@@ -90,14 +93,15 @@ A `render.yaml` blueprint is included, so deployment is mostly clicking:
 
 - **Render free tier blocks SMTP** — since Sep 26, 2025, Render's *free*
   web services block all outbound traffic to SMTP ports 25, 465 and 587
-  (so Gmail's `587`/`465` time out). Two fixes: use **SendGrid SMTP on port
-  `2525`** (free tier, 100 emails/day — just change the env vars below), or
-  upgrade to a paid Render plan. The server now fails fast (~15s) instead of
-  hanging 2 minutes when the SMTP host is unreachable.
+  (so Gmail's `587`/`465` time out; `2525` may also be affected). The
+  recommended fix is `MAIL_PROVIDER=resend`: the Resend HTTP API runs over
+  HTTPS (port 443), which Render never blocks, and its free tier gives
+  3,000 emails/month. The server fails fast (~15s) instead of hanging
+  2 minutes when the SMTP host is unreachable.
 - **Gmail SMTP limits** — free Gmail allows roughly 500 outgoing emails/day
   and may rate-limit bursts. Fine for a portfolio; if you ever need more,
-  swap the transporter in `server.js` for a transactional service (Resend,
-  Postmark, SendGrid) — the `POST /api/contact` API stays the same.
+  set `MAIL_PROVIDER=resend` (or another HTTP provider) — the
+  `POST /api/contact` API stays the same.
 - **Files served** — the server only serves `index.html`, `styles.css` and
   `script.js`. Requests for `/server.js`, `/.env`, `/package.json`, etc.
   return 404, so source and secrets stay private.
