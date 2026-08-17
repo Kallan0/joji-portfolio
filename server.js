@@ -42,7 +42,8 @@ const PUBLIC_FILES = new Set(['index.html', 'styles.css', 'script.js']);
 app.use((req, res, next) => {
   if (req.method !== 'GET') return next();
   const name = decodeURIComponent(req.path).split('/').pop();
-  if (req.path !== '/' && !PUBLIC_FILES.has(name)) return res.sendStatus(404);
+  const isAsset = req.path.startsWith('/images/') || req.path.startsWith('/fonts/');
+  if (req.path !== '/' && !isAsset && !PUBLIC_FILES.has(name)) return res.sendStatus(404);
   next();
 });
 app.use(express.static(__dirname, { index: 'index.html', dotfiles: 'deny' }));

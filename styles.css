@@ -5,22 +5,41 @@
    one place and the whole site updates.
    ========================================================================== */
 
+/* Brixela — the site's display font (local woff) */
+@font-face {
+  font-family: 'Brixela';
+  src: url('fonts/Brixela DEMO.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Megan Demo — kept as a backup display font (swap 'Brixela' above to reuse) */
+@font-face {
+  font-family: 'Megan Demo';
+  src: url('fonts/Megan Demo.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* ---- Fonts (edit to swap typefaces) ---- */
-  --font-heading: 'Clash Display', 'Segoe UI', sans-serif;
+  --font-heading: 'Brixela', 'Megan Demo', 'Segoe UI', sans-serif;
   --font-body: 'General Sans', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Menlo', monospace;
 
   /* ---- Colors (edit to re-theme the site) ---- */
-  --bg: #0a0c11;                    /* page background            */
-  --surface: #10131b;               /* card background            */
-  --surface-2: #171b26;             /* chips / hover background   */
+  --bg: #1e223d;                    /* page background (deep navy) */
+  --surface: #272c4f;               /* card background            */
+  --surface-2: #313764;             /* chips / hover background   */
   --border: rgba(255, 255, 255, 0.08);   /* hairline borders      */
   --border-strong: rgba(255, 255, 255, 0.16); /* stronger borders */
   --text: #eef1f7;                  /* primary text              */
   --text-muted: #98a2b5;            /* secondary text            */
-  --accent: #8b7bff;                /* primary accent (violet)   */
-  --accent-2: #4ed6c4;              /* secondary accent (mint)   */
-  --on-accent: #0b0d12;             /* text on accent buttons    */
+  --accent: #f54f1b;                /* primary accent (orange)   */
+  --accent-2: #ff8f5e;              /* secondary accent (light orange) */
+  --on-accent: #1e223d;             /* text on accent buttons    */
   --success: #4ade80;               /* form success messages     */
   --danger: #f87171;                /* form error messages       */
 
@@ -107,9 +126,9 @@ ul {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(60% 45% at 12% -5%, rgba(139, 123, 255, 0.16), transparent 60%),
-    radial-gradient(50% 40% at 95% 10%, rgba(78, 214, 196, 0.12), transparent 60%),
-    radial-gradient(40% 35% at 50% 110%, rgba(139, 123, 255, 0.08), transparent 60%);
+    radial-gradient(60% 45% at 12% -5%, rgba(245, 79, 27, 0.14), transparent 60%),
+    radial-gradient(50% 40% at 95% 10%, rgba(255, 143, 94, 0.10), transparent 60%),
+    radial-gradient(40% 35% at 50% 110%, rgba(245, 79, 27, 0.06), transparent 60%);
 }
 
 .container {
@@ -183,7 +202,7 @@ section {
 
 .nav-link.active {
   color: var(--accent-2);
-  background: rgba(78, 214, 196, 0.1);
+  background: rgba(245, 79, 27, 0.12);
 }
 
 /* Hamburger (mobile only) */
@@ -328,40 +347,93 @@ section {
   margin-inline: auto;
 }
 
-.hero .name {
-  font-family: var(--font-heading);
-  font-size: clamp(3.2rem, 9vw, 5.6rem);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  margin: 24px 0 14px;
+/* ============================== Terminal (hero) ============================== */
+
+.terminal {
+  width: min(760px, 100%);
+  text-align: left;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #191d38;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-mono);
 }
 
-.hero .role {
-  font-family: var(--font-heading);
-  font-size: clamp(1.1rem, 2.6vw, 1.55rem);
-  font-weight: 500;
-  margin-bottom: 18px;
-}
-
-.hero .role .accent {
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.hero .tagline {
-  color: var(--text-muted);
-  font-size: 1.05rem;
-  max-width: 58ch;
-  margin-bottom: 36px;
-}
-
-.hero-cta {
+.terminal-bar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--border);
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot-red    { background: #ff5f57; }
+.terminal-dot-yellow { background: #febc2e; }
+.terminal-dot-green  { background: #28c840; }
+
+.terminal-title {
+  margin-left: 10px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.terminal-body {
+  padding: 18px 20px 22px;
+  min-height: 300px;
+  max-height: 58vh;
+  overflow-y: auto;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: #dbe2ea;
+}
+
+.terminal-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal-prompt {
+  color: var(--accent-2);
+  font-weight: 500;
+}
+
+.terminal-command {
+  color: #f2f5fa;
+}
+
+.terminal-output {
+  color: #8f9db0;
+}
+
+.terminal-label {
+  color: #7ee787;   /* green — field labels */
+}
+
+.terminal-key {
+  color: #e3b341;   /* yellow — values */
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.05em;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  background: var(--accent-2);
+  animation: terminal-blink 1.1s step-end infinite;
+}
+
+@keyframes terminal-blink {
+  50% { opacity: 0; }
 }
 
 /* ============================== Buttons ============================== */
@@ -388,7 +460,7 @@ section {
 }
 
 .btn-primary:hover {
-  background: #9d8fff;
+  background: #ff6a33;
   transform: translateY(-2px);
 }
 
@@ -400,6 +472,51 @@ section {
 .btn-ghost:hover {
   background: var(--surface-2);
   transform: translateY(-2px);
+}
+
+/* ============================== Roles marquee (seamless loop) ============================== */
+
+.roles-marquee {
+  display: block;
+  overflow: hidden;               /* clip the looping track */
+  width: 105%;                    /* slightly wider than the page so the tilt */
+  margin-inline: -2.5%;           /* never leaves a gap at the viewport edges */
+  padding: 14px 0;
+  background: linear-gradient(90deg, #e64510 0%, #f54f1b 55%, #ff8f5e 100%);
+  color: #000;                    /* black text */
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transform: rotate(-1.5deg);     /* slight tilt — ribbon across the page */
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* The track holds two identical copies of the list; sliding left by exactly
+   one copy (translateX(-50%)) restarts the loop invisibly, so the band is
+   never empty. */
+.roles-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: roles-scroll 26s linear infinite;
+}
+
+.roles-marquee-text {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@keyframes roles-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Respect users who prefer less motion: freeze the ticker in place */
+@media (prefers-reduced-motion: reduce) {
+  .roles-marquee-track {
+    animation: none;
+  }
 }
 
 /* ============================== Tech stack (orbiting) ============================== */
@@ -484,6 +601,12 @@ section {
 .orbit-node svg {
   width: 20px;
   height: 20px;
+}
+
+/* Brand icons loaded from /images (devicon set) */
+.orbit-node img {
+  width: 22px;
+  height: 22px;
 }
 
 /* Tooltip — shows the technology name on hover (they were lost when the grid became an orbit) */
@@ -842,7 +965,7 @@ section {
 .form-field textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(139, 123, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(245, 79, 27, 0.15);
 }
 
 /* Honeypot — invisible to humans, a trap for bots */

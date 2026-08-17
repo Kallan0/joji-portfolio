@@ -10,6 +10,12 @@ const CONFIG = {
   name: 'Kallan',
   role: 'Full-Stack Developer',
 
+  /* --- Short bio (shown in the terminal's about.txt) --- */
+  bio: 'I design and build complete web products: clean, accessible interfaces on the front, and the APIs, databases and infrastructure that power them on the back.',
+
+  /* --- Roles you're open to (scrolling band below the hero) --- */
+  roles: ['Full Stack', 'SDE', 'Backend Engineer', 'AI Engineer', 'Automation Engineer', 'DevOps'],
+
   /* --- Location & what you're doing now --- */
   location: {
     city: 'India',                                // update to your city
@@ -209,11 +215,192 @@ function renderNow() {
     .join('');
 }
 
+/* ============================== Render: roles marquee ============================== */
+
+// Separator between roles, plus the spacing that also closes the loop seam
+const ROLES_SEPARATOR = '\u00A0\u00A0✦\u00A0\u00A0';
+
+function renderMarquee() {
+  const texts = $$('.roles-marquee-text');
+  if (!texts.length || !CONFIG.roles.length) return;
+
+  const rolesText = CONFIG.roles.map((role) => role + ROLES_SEPARATOR).join('');
+  texts.forEach((el) => {
+    el.textContent = rolesText;
+  });
+}
+
+/* ============================== Terminal (hero) ============================== */
+
+const TERMINAL = {
+  typingSpeed: 45,     // ms per character typed
+  lineDelay: 90,       // ms between printed output lines
+  commandDelay: 900,   // pause after a command's output
+  restartDelay: 3000,  // pause before replaying from the start
+};
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/* Commands and outputs — details are pulled from CONFIG so everything stays
+   editable in one place. */
+function buildTerminalSteps() {
+  const stackList = CONFIG.stack.flatMap((group) => group.items).join(', ');
+
+  return [
+    { command: 'whoami', output: [`${CONFIG.name} — ${CONFIG.role}`] },
+    {
+      command: 'cat about.txt',
+      output: [
+        'Full-stack developer crafting fast, friendly web apps.',
+        '',
+        CONFIG.bio,
+        '',
+        { label: 'location: ', value: `${CONFIG.location.city} (${CONFIG.location.timezone})` },
+        { label: 'stack:    ', value: stackList },
+        '',
+        { label: 'currently:', value: '' },
+        ...CONFIG.currently.map((c) => ({ value: `  - ${c}` })),
+        '',
+        { label: 'email:    ', value: CONFIG.email },
+      ],
+    },
+  ];
+}
+
+async function typeInto(el, text, speed) {
+  for (const ch of text) {
+    el.textContent += ch;
+    await sleep(speed);
+  }
+}
+
+function scrollTerminal(body) {
+  body.scrollTop = body.scrollHeight;
+}
+
+/* Renders one output line. Plain strings stay muted; { label, value } objects
+   are colored — green label, yellow value — like a real shell. */
+function appendOutput(body, out) {
+  const el = document.createElement('div');
+  el.className = 'terminal-line terminal-output';
+
+  if (typeof out === 'string') {
+    el.textContent = out;
+  } else {
+    if (out.label) {
+      const label = document.createElement('span');
+      label.className = 'terminal-label';
+      label.textContent = out.label;
+      el.appendChild(label);
+    }
+    if (out.value) {
+      const value = document.createElement('span');
+      value.className = 'terminal-key';
+      value.textContent = out.value;
+      el.appendChild(value);
+    }
+  }
+
+  body.appendChild(el);
+}
+
+/* Runs forever: types every command + output, pauses, then clears the
+   transcript and starts over from the beginning. */
+async function runTerminal(body) {
+  const steps = buildTerminalSteps();
+  const prompt = `${CONFIG.name.toLowerCase()}@portfolio:~$`;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lineDelay = prefersReduced ? 0 : TERMINAL.lineDelay;
+
+  while (true) {
+    body.innerHTML = '';
+
+    for (const step of steps) {
+      const line = document.createElement('div');
+      line.className = 'terminal-line';
+
+      const promptEl = document.createElement('span');
+      promptEl.className = 'terminal-prompt';
+      promptEl.textContent = `${prompt} `;
+
+      const cmdEl = document.createElement('span');
+      cmdEl.className = 'terminal-command';
+
+      const cursorEl = document.createElement('span');
+      cursorEl.className = 'terminal-cursor';
+      cursorEl.setAttribute('aria-hidden', 'true');
+
+      line.append(promptEl, cmdEl, cursorEl);
+      body.appendChild(line);
+      scrollTerminal(body);
+
+      if (prefersReduced) {
+        cmdEl.textContent = step.command;
+      } else {
+        await typeInto(cmdEl, step.command, TERMINAL.typingSpeed);
+      }
+
+      if (step.output?.length) {
+        await sleep(lineDelay);
+        for (const out of step.output) {
+          appendOutput(body, out);
+          scrollTerminal(body);
+          await sleep(lineDelay);
+        }
+      }
+
+      if (!prefersReduced) await sleep(TERMINAL.commandDelay);
+    }
+
+    // Reduced motion: print the full transcript once, no replay loop
+    if (prefersReduced) return;
+
+    await sleep(TERMINAL.restartDelay);
+  }
+}
+
+function initTerminal() {
+  const body = $('#terminalBody');
+  if (!body) return;
+
+  const title = $('#terminalTitle');
+  if (title) title.textContent = `${CONFIG.name.toLowerCase()}@portfolio: ~`;
+
+  runTerminal(body);
+}
+
 /* ============================== Render: tech stack (orbiting) ============================== */
 
 const ORBIT_FACTORS = [0.42, 0.6, 0.78, 0.96];   // ring radius as a share of the container
 const ORBIT_DURATIONS = [18, 24, 30, 36];        // seconds per revolution, staggered
 const ORBIT_LABEL_ANGLES = [0, 90, 180, 270];    // bottom, right, top, left
+
+/* Real brand icons for the orbiting stack — pulled from the /images folder
+   (devicon set). Items without a match fall back to the generic UI icon. */
+const STACK_ICONS = {
+  JavaScript: 'images/JavaScript.svg',
+  TypeScript: 'images/TypeScript.svg',
+  Python: 'images/Python.svg',
+  'HTML & CSS': 'images/HTML5.svg',
+  React: 'images/React.svg',
+  'Next.js': 'images/Next.js.svg',
+  Vue: 'images/Vue.js.svg',
+  'Tailwind CSS': 'images/Tailwind-CSS.svg',
+  'Node.js': 'images/Node.js.svg',
+  Express: 'images/Express.svg',
+  PostgreSQL: 'images/PostgresSQL.svg',
+  Redis: 'images/Redis.svg',
+  Git: 'images/Git.svg',
+  Docker: 'images/Docker.svg',
+  Vercel: 'images/Vercel.svg',
+  Figma: 'images/Figma.svg',
+};
+
+function stackIconFor(item, group) {
+  const file = STACK_ICONS[item];
+  if (file) return `<img class="orbit-brand" src="${file}" alt="" draggable="false" />`;
+  return ICONS[group.icon] || ICONS.code;
+}
 
 function renderOrbit() {
   const rings = $('#orbitRings');
@@ -228,7 +415,7 @@ function renderOrbit() {
           const direction = ringIndex % 2 === 1 ? 'reverse' : 'normal';
           return `
             <span class="orbit-node" data-tooltip="${item}" aria-label="${item}" style="--angle: ${angle}deg; --radius: var(--r${ringIndex}); --duration: ${ORBIT_DURATIONS[ringIndex]}s; animation-direction: ${direction}">
-              ${ICONS[group.icon] || ICONS.code}
+              ${stackIconFor(item, group)}
             </span>`;
         })
         .join('');
@@ -511,7 +698,9 @@ function initReveal() {
 /* ============================== Boot ============================== */
 
 renderNow();
+renderMarquee();
 renderOrbit();
+initTerminal();
 renderProjects();
 renderContact();
 renderDock();

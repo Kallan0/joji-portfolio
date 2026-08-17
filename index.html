@@ -6,11 +6,11 @@
   <title>Kallan — Full-Stack Developer</title>
   <meta name="description" content="Portfolio of Kallan, a full-stack developer building fast, friendly web applications." />
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='%238b7bff'/></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='%23f54f1b'/></svg>" />
 
-  <!-- Fonts: Clash Display (headings) + General Sans (body) — loaded from Fontshare -->
+  <!-- Fonts: Megan Demo (headings, local) + General Sans (body) + JetBrains Mono (terminal) -->
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -36,25 +36,34 @@
   </header>
 
   <main id="top">
-    <!-- ===================== About / Hero ===================== -->
+    <!-- ===================== About / Hero (terminal) =====================
+         Left-aligned terminal window; commands are typed out and the whole
+         transcript replays from the top in a loop. Content is rendered from
+         CONFIG in script.js. -->
     <section id="about" class="hero section">
       <div class="hero-inner reveal">
-        <p class="eyebrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-          Hello, I&rsquo;m
-        </p>
-        <h1 class="name">Kallan</h1>
-        <p class="role">Full-Stack Developer &mdash; I build <span class="accent">fast, friendly web apps</span></p>
-        <p class="tagline">
-          I design and build complete web products: clean, accessible interfaces on the
-          front, and the APIs, databases and infrastructure that power them on the back.
-        </p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#work">View my work</a>
-          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        <div class="terminal" role="region" aria-label="Terminal introducing my details">
+          <div class="terminal-bar">
+            <span class="terminal-dot terminal-dot-red" aria-hidden="true"></span>
+            <span class="terminal-dot terminal-dot-yellow" aria-hidden="true"></span>
+            <span class="terminal-dot terminal-dot-green" aria-hidden="true"></span>
+            <span class="terminal-title" id="terminalTitle"></span>
+          </div>
+          <div class="terminal-body" id="terminalBody"></div>
         </div>
       </div>
     </section>
+
+    <!-- ===================== Roles marquee (seamless loop) =====================
+         The roles are rendered from CONFIG.roles in script.js — edit them there.
+         The track holds two identical copies of the list; sliding left by
+         exactly one copy restarts the loop invisibly, so the band is never empty. -->
+    <div class="roles-marquee" role="marquee" aria-label="Roles I am open to">
+      <div class="roles-marquee-track">
+        <span class="roles-marquee-text"></span>
+        <span class="roles-marquee-text" aria-hidden="true"></span>
+      </div>
+    </div>
 
     <!-- ===================== Tech stack (orbiting) ===================== -->
     <section id="stack" class="section">
