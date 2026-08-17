@@ -31,9 +31,9 @@ const CONFIG = {
   email: 'jojiag2005@gmail.com',
   socials: {
     github: 'https://github.com/Kallan0',
-    instagram: '',     // e.g. 'https://instagram.com/yourname'
-    whatsapp: '',      // e.g. 'https://wa.me/91XXXXXXXXXX'
-    linkedin: '',      // e.g. 'https://linkedin.com/in/yourname'
+    instagram: 'https://instagram.com/joji.george19_',
+    whatsapp: 'https://wa.me/919400776781',
+    linkedin:'https://linkedin.com/in/jojiag192005',
   },
 
   /* --- Tech stack (icon = key into the ICONS library below) --- */
@@ -421,9 +421,7 @@ function renderOrbit() {
         .join('');
 
       const label = `
-        <span class="orbit-label" style="--angle: ${ORBIT_LABEL_ANGLES[ringIndex]}deg; --radius: var(--r${ringIndex});">
-          ${group.title}
-        </span>`;
+        <span class="orbit-label" style="--angle: ${ORBIT_LABEL_ANGLES[ringIndex]}deg; --radius: var(--r${ringIndex});" data-ring="${ringIndex}"></span>`;
 
       return nodes + label;
     })
@@ -437,7 +435,8 @@ let orbitRadii = [];
 function layoutOrbit() {
   const container = $('#orbitContainer');
   if (!container) return;
-  const maxRadius = Math.min(container.clientWidth / 2 - 26, 230);
+  const onDesktop = window.matchMedia('(min-width: 901px)').matches;
+  const maxRadius = Math.min(container.clientWidth / 2 - 26, onDesktop ? 290 : 230);
   orbitRadii = ORBIT_FACTORS.map((factor) => Math.round(maxRadius * factor));
   orbitRadii.forEach((radius, i) => {
     container.style.setProperty(`--r${i}`, `${radius}px`);
@@ -445,6 +444,69 @@ function layoutOrbit() {
   // Hug the circle: ring diameter + room for the tile overhang and bottom label
   container.style.height = `${2 * maxRadius + 56}px`;
   renderOrbitPaths();
+  renderOrbitLabels();
+}
+
+/* Curved ring labels — each group title follows its ring's arc as plain text
+   (bottom: left→right, right: top→bottom, top: left→right, left: bottom→top).
+   The SVG is centered on the anchor point, so the arc's midpoint sits exactly
+   on the ring it belongs to. */
+function curvedLabelSvg(radius, angle, title, id) {
+  const PAD = 18;   // room for glyph overhang at the arc ends
+  const half = 60;  // ±60° of arc around the anchor — plenty for any title
+  const steps = 48; // polyline segments — smooth enough at these sizes
+
+  // The ring arc in local coords (anchor at 0,0). The point order matches the
+  // reading direction: bottom/top read left→right, right reads top→bottom,
+  // left reads bottom→top. Generated as a polyline to avoid SVG sweep-flag
+  // ambiguity about which side of the circle the arc takes.
+  let cx, cy, a0, a1;
+  if (angle === 0) {          // bottom
+    cx = 0; cy = -radius; a0 = 150; a1 = 30;
+  } else if (angle === 90) {  // right
+    cx = -radius; cy = 0; a0 = -60; a1 = 60;
+  } else if (angle === 180) { // top
+    cx = 0; cy = radius; a0 = 210; a1 = 330;
+  } else {                    // left
+    cx = radius; cy = 0; a0 = 120; a1 = 240;
+  }
+
+  const rad = (deg) => (deg * Math.PI) / 180;
+  const point = (i) => {
+    const a = rad(a0 + ((a1 - a0) * i) / steps);
+    return [cx + radius * Math.cos(a), cy + radius * Math.sin(a)];
+  };
+
+  const d = Array.from({ length: steps + 1 }, (_, i) => {
+    const [x, y] = point(i);
+    return `${x.toFixed(2)} ${y.toFixed(2)}`;
+  }).join(' L ');
+
+  // Symmetric viewBox centered on the anchor, so the SVG center lands on the ring
+  const xs = [], ys = [];
+  for (let i = 0; i <= steps; i++) {
+    const [x, y] = point(i);
+    xs.push(Math.abs(x)); ys.push(Math.abs(y));
+  }
+  const halfX = Math.max(...xs, 4) + PAD;
+  const halfY = Math.max(...ys, 4) + PAD;
+
+  return `
+    <svg class="orbit-label-svg" viewBox="${-halfX} ${-halfY} ${2 * halfX} ${2 * halfY}"
+         width="${2 * halfX}" height="${2 * halfY}" aria-hidden="true" focusable="false">
+      <defs><path id="${id}" d="M ${d}" /></defs>
+      <text><textPath href="#${id}" startOffset="50%" text-anchor="middle">${title}</textPath></text>
+    </svg>`;
+}
+
+function renderOrbitLabels() {
+  $$('#orbitRings .orbit-label').forEach((el) => {
+    const ring = Number(el.dataset.ring);
+    const radius = orbitRadii[ring];
+    const group = CONFIG.stack[ring];
+    if (!radius || !group) return;
+    el.innerHTML = curvedLabelSvg(radius, ORBIT_LABEL_ANGLES[ring], group.title, `labelPath-${ring}`);
+  });
 }
 
 /* Draw the orbital path circles so each ring's line is visible */

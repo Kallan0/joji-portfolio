@@ -345,12 +345,47 @@ section {
 .hero-inner {
   width: min(var(--container), 92vw);
   margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 64px);
+}
+
+/* ============================== Hero art (illustration) ============================== */
+
+.hero-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* soft shadow beneath the illustration, hugging its silhouette */
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.45));
+}
+
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-art {
+    width: min(100%, 460px);
+    margin-inline: auto;
+  }
+}
+
+/* Desktop: widen the hero so both the terminal and the illustration get more room */
+@media (min-width: 901px) {
+  .hero-inner {
+    width: min(1400px, 94vw);
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: clamp(48px, 6vw, 88px);
+  }
 }
 
 /* ============================== Terminal (hero) ============================== */
 
 .terminal {
-  width: min(760px, 100%);
+  width: min(800px, 100%);
   text-align: left;
   overflow: hidden;
   border-radius: 14px;
@@ -647,24 +682,37 @@ section {
   }
 }
 
-/* Static ring labels (Languages, Frontend, Backend, Tools & Cloud) */
+/* Curved ring labels — group titles follow their ring's arc as plain text.
+   Each is an SVG centered on its ring, with the text bent along a circular path. */
 .orbit-label {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 3;
-  padding: 6px 13px;
-  white-space: nowrap;
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
+  display: flex;          /* center the svg so the arc's midpoint lands on the ring */
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;   /* never block the orbiting tiles beneath */
+  transform: translate(-50%, -50%) rotate(calc(var(--angle) * -1)) translateY(var(--radius)) rotate(var(--angle));
+}
+
+.orbit-label-svg {
+  max-width: none;        /* undo the global svg max-width clamp for the big label boxes */
+}
+
+.orbit-label-svg text {
+  fill: var(--text-muted);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(var(--radius)) rotate(calc(var(--angle) * -1));
+}
+
+/* Desktop: enlarge the orbit (JS also raises its radius cap above 900px) */
+@media (min-width: 901px) {
+  .orbit-container {
+    width: min(800px, 92vw);
+  }
 }
 
 /* Respect users who prefer less motion: freeze the icons in place */
